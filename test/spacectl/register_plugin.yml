@@ -1,0 +1,6 @@
+name: Google Cloud Monitoring Mon Webhook
+service_type: monitoring.Webhook
+image: pyengine/plugin-http-file-cost-datasource
+capability: {}
+tags: {}
+template: {}
