@@ -7,6 +7,7 @@ class Incident:
         self.event_dict = {}
         self.incident = args[0]
         self.version = args[1]
+        self.event_dict['title'] = self._update_title()
         self.event_dict['state'] = self._update_state(self.incident.get('state', ''))
         self.event_dict['severity'] = self._update_severity(self.incident.get('state', ''))
         self.event_dict['resource'] = self._update_resource()
@@ -18,7 +19,6 @@ class Incident:
     def _update(self):
         map_keys = {
             'incident_id': 'event_key',
-            'condition_name': 'title',
             'summary': 'description',
             'policy_name': 'rule'
         }
@@ -28,6 +28,14 @@ class Incident:
                 self.event_dict[v] = item
             else:
                 print(f'Fail to get key: {k}')
+
+    def _update_title(self):
+        # title = condition_name + state
+        # ex) VM Instance - CPU utilization (open)
+        # ex) VM Instance - CPU utilization (closed)
+        title_1 = self.incident.get('condition_name', 'no title')
+        title_2 = self.incident.get('state', 'unknown')
+        return f'{title_1} ({title_2})'
 
     def _update_resource(self):
         resource = {
