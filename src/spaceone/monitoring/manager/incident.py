@@ -8,7 +8,7 @@ class Incident:
         self.incident = args[0]
         self.version = args[1]
         self.event_dict['title'] = self._update_title()
-        self.event_dict['state'] = self._update_state(self.incident.get('state', ''))
+        self.event_dict['event_type'] = self._update_event_type(self.incident.get('state', ''))
         self.event_dict['severity'] = self._update_severity(self.incident.get('state', ''))
         self.event_dict['resource'] = self._update_resource()
         self.event_dict['additional_info'] = self._update_additional()
@@ -67,7 +67,7 @@ class Incident:
         return self.event_dict
 
     @staticmethod
-    def _update_state(event_state):
+    def _update_event_type(event_state):
         return 'RECOVERY' if event_state == 'closed' else 'ALERT'
 
     @staticmethod

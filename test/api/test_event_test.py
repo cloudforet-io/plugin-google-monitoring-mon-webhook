@@ -2,7 +2,7 @@ import logging
 import unittest
 import os
 from spaceone.core.unittest.runner import RichTestRunner
-from spaceone.tester import TestCase, print_json
+from spaceone.tester import TestCase, print_json, to_json
 
 _LOGGER = logging.getLogger(__name__)
 TEST_JSON = os.environ.get('test_json', None)
@@ -72,7 +72,9 @@ class TestEvent(TestCase):
             }
           }
         parsed_data = self.monitoring.Event.parse({'options': {}, 'data': data})
-        print(parsed_data)
+        results = to_json(parsed_data)
+        for result in results['results']:
+            self.assertEqual(result['event_type'], 'ALERT')
 
 
 
